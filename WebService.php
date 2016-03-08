@@ -1,7 +1,9 @@
 <?php
 namespace WebService;
 require_once('Libs/Application/Application.php');
+
 use Application\Application;
+use DataBase\Connection;
 
 /**
  * Classe raiz da aplicação que é responsavel por carregar e inicializar a
@@ -32,6 +34,9 @@ class WebService extends Application {
      * Metodo de inicialização da aplicação
      */
     protected function init(){
+
+        //Configura a conexão com o bando de dados
+        Connection::setConnection($this->dataBaseCfg);
 
         //Pega o controller e a action
         $controller = isset($_GET['controller']) ? strtolower($_GET['controller']) : null;
