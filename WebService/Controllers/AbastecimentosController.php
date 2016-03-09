@@ -182,4 +182,59 @@ class AbastecimentosController {
         ));
     }
 
+    /**
+     * Remove registros da tabela abastecimentos.
+     */
+    public function deleteAction(){
+
+        //Pega o id do abastecimento
+        $id = Application::getParam('id');
+        if($id === null){
+            return json_encode(array(
+                'success' => false,
+                'message' => 'O abastecimento é inválido ou não existe.'
+            ));
+        }
+
+        try {
+            //Busta o registro especificado para a atualização
+            $model = Abastecimento::findOneBy(array('id' => $id));
+
+        } catch (Exception $e) {
+
+            //Em caso de erro, retorna uma menssagem de erro
+            return json_encode(array(
+                'success' => false,
+                'message' => 'O abastecimento é inválido ou não existe.'
+            ));
+        }
+
+        //Caso não a encontre, retorna uma menssagem de erro.
+        if($model === null){
+            return json_encode(array(
+                'success' => false,
+                'message' => 'O abastecimento é inválido ou não existe.'
+            ));
+        }
+
+        try{
+            //Remove os dados do banco de dados
+            $model->delete();
+        }
+        catch(\Exception $e){
+
+            //Caso algo dê errado, retorna uma menssagem de erro
+            return json_encode(array(
+                'success' => false,
+                'message' => $e->getMessage(),
+                'code' => $e->getCode()
+            ));
+        }
+
+        //Retorna os dados que foram removidos no banco de dados
+        return json_encode(array(
+            'success' => true,
+            'data' => $model->toArray()
+        ));
+    }
 }
