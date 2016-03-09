@@ -71,4 +71,23 @@ abstract class Application {
         //Inclue a classe requisitada
         require_once(self::$namespaces[$base].implode('/', $namespace).'.php');
     }
+
+    /**
+     * Procura e retorna o valor de um parâmetro GET ou POST.
+     * @param  string $key     Nome do parâmetros
+     * @param  mixin $default Valor padrão de retorno para caso não exista o parãmetro
+     * @return string          Valor do parâmetro
+     */
+    public static function getParam($key, $default = null){
+
+        //Verifica se existe nos parâmetros GET
+        if(isset($_GET[$key]) and ! empty($_GET[$key]))
+            return $_GET[$key];
+
+        //Verifica se existe nos parâmetros POST
+        if(isset($_POST[$key]) and ! empty($_POST[$key]))
+            return $_POST[$key];
+
+        return $default;
+    }
 }
