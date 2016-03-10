@@ -4,13 +4,14 @@ use DataBase\ModelBase;
 use DataBase\Types;
 
 /**
- * Model responsavel por mapear a tabela abastecimentos
+ * Model responsavel por mapear a tabela abastecimentos.
+ *
  * @table abastecimentos
  */
 class Abastecimento extends ModelBase {
 
     /**
-     * ID da tabela.
+     * ID do abastecimento.
      *
      * @var int
      * @id
@@ -72,6 +73,14 @@ class Abastecimento extends ModelBase {
      */
     protected $criadoEm;
 
+    /**
+     * Referencia do veiculo do abastecimento.
+     * @var int
+     * @column veiculo_id
+     * @notnull
+     */
+    protected $veiculo;
+
     /* ******************** GETTERS ******************** */
 
     public function getId(){
@@ -100,6 +109,10 @@ class Abastecimento extends ModelBase {
 
     public function getCriadoEm(){
         return $this->criadoEm;
+    }
+
+    public function getVeiculo(){
+        return $this->veiculo;
     }
 
     /* ******************** SETTERS ******************** */
@@ -131,6 +144,11 @@ class Abastecimento extends ModelBase {
 
     public function setCriadoEm($criadoEm){
         $this->criadoEm = Types::casting($criadoEm, 'datetime');
+        return $this;
+    }
+
+    public function setVeiculo($veiculo){
+        $this->veiculo = Types::casting($veiculo, 'int');
         return $this;
     }
 }

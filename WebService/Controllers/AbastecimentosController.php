@@ -10,12 +10,25 @@ class AbastecimentosController {
      */
     public function readAction(){
 
-        try {
-            //Pega todos os abastecimentos
-            $result = Abastecimento::fetchAll(array(
-                'orderby' => 'criadoEm',
-                'direction' => Abastecimento::ORDER_DIRECTION_DESC
+        //Pega o id do veiculo
+        $veiculo = Application::getParam('veiculo');
+        if($veiculo === null){
+            return json_encode(array(
+                'success' => false,
+                'message' => 'Veiculo é inválido ou não existe.',
+                'code' => 0
             ));
+        }
+
+        try {
+            //Pega todos os abastecimentos do veiculo informado
+            $result = Abastecimento::findBy(
+                array('veiculo' => $veiculo),
+                array(
+                    'orderby' => 'criadoEm',
+                    'direction' => Abastecimento::ORDER_DIRECTION_DESC
+                )
+            );
         }
         catch (\Exception $e){
 
@@ -47,6 +60,16 @@ class AbastecimentosController {
      * Cria novos registros para a tabela abastecimentos.
      */
     public function createAction(){
+
+        //Pega o id do veiculo
+        $veiculo = Application::getParam('veiculo');
+        if($veiculo === null){
+            return json_encode(array(
+                'success' => false,
+                'message' => 'Veiculo é inválido ou não existe.',
+                'code' => 0
+            ));
+        }
 
         //Mapeia a entradas de dados
         $inputMap = array('valorTotal', 'litros', 'precoLitro', 'quilometragem', 'data');
@@ -81,6 +104,7 @@ class AbastecimentosController {
         $model->setQuilometragem($data['quilometragem']);
         $model->setData($data['data']);
         $model->setCriadoEm(new \DateTime());
+        $model->setVeiculo($veiculo);
 
         try{
             //Salva os dados no banco de dados
@@ -107,6 +131,16 @@ class AbastecimentosController {
      * Atualiza os registros da tabela abastecimentos.
      */
     public function updateAction(){
+
+        //Pega o id do veiculo
+        $veiculo = Application::getParam('veiculo');
+        if($veiculo === null){
+            return json_encode(array(
+                'success' => false,
+                'message' => 'Veiculo é inválido ou não existe.',
+                'code' => 0
+            ));
+        }
 
         //Mapeia a entradas de dados
         $inputMap = array('id', 'valorTotal', 'litros', 'precoLitro', 'quilometragem', 'data');
@@ -135,7 +169,7 @@ class AbastecimentosController {
 
         try {
             //Busta o registro especificado para a atualização
-            $model = Abastecimento::findOneBy(array('id' => $data['id']));
+            $model = Abastecimento::findOneBy(array('id' => $data['id'], 'veiculo' => $veiculo));
 
         } catch (Exception $e) {
 
@@ -187,6 +221,16 @@ class AbastecimentosController {
      */
     public function deleteAction(){
 
+        //Pega o id do veiculo
+        $veiculo = Application::getParam('veiculo');
+        if($veiculo === null){
+            return json_encode(array(
+                'success' => false,
+                'message' => 'Veiculo é inválido ou não existe.',
+                'code' => 0
+            ));
+        }
+
         //Pega o id do abastecimento
         $id = Application::getParam('id');
         if($id === null){
@@ -198,7 +242,7 @@ class AbastecimentosController {
 
         try {
             //Busta o registro especificado para a atualização
-            $model = Abastecimento::findOneBy(array('id' => $id));
+            $model = Abastecimento::findOneBy(array('id' => $id, 'veiculo' => $veiculo));
 
         } catch (Exception $e) {
 
