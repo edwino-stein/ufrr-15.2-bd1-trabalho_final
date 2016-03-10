@@ -13,6 +13,7 @@ return array(
 
     //controllers registrados para a aplicação
     'controllers' => array(
-        'abastecimentos' => 'WebService\Controllers\AbastecimentosController'
+        'abastecimentos' => 'WebService\Controllers\AbastecimentosController',
+        'veiculos' => 'WebService\Controllers\VeiculosController'
     )
 );
