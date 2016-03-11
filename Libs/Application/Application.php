@@ -2,7 +2,7 @@
 namespace Application;
 
 //Limpa o cache das aplicações
-opcache_reset();
+if(function_exists('opcache_reset')) opcache_reset();
 
 //Inclue o autoloader
 include_once(__DIR__.'/autoload.php');

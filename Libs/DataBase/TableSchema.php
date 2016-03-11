@@ -104,7 +104,7 @@ class TableSchema{
             $types = self::getTypes();
             $type = strtolower($attributes->getTagValue('var'));
             $colAttrbs['type'] = in_array($type, $types) ?
-                                 $type : self::getDefaultAttrbs['type'];
+                                 $type : self::getDefaultAttrbs()['type'];
 
             //Se for id
             $colAttrbs['id'] = $attributes->hasTag('id');
