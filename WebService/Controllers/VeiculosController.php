@@ -37,7 +37,7 @@ class VeiculosController {
         //Retorna os dados encontrados
         return json_encode(array(
             'success' => true,
-            'data' => $model->toArray(),
+            'data' => array($model->toArray()),
             'total' => 1
         ));
     }
